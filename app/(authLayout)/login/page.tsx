@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { LoginValidation } from "@/utils/schema";
 import { Form, Input, Button } from "antd";
-import { useLoginMutation } from "@/redux/features/user";
+import { useLoginMutation, useSignupMutation } from "@/redux/features/user";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
@@ -17,10 +17,8 @@ export default function Login({}: Props) {
   const [loginForm] = Form.useForm();
   const [login, { isLoading, error, isError }] = useLoginMutation();
 
-  // hook variables
   const router = useRouter();
 
-  // Login validation with yup
   const yupSync: any = {
     async validator({ field }: { field: string }, value: string) {
       await LoginValidation.validateSyncAt(field, { [field]: value });

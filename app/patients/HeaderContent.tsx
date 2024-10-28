@@ -5,22 +5,24 @@ import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import Link from "next/link";
 import { Upload } from "lucide-react";
-import { useGetUserQuery } from "@/redux/features/user";
-const ProfieItems: MenuProps["items"] = [
-  {
-    key: "1",
-    label: <Link href='#'>Setting</Link>,
-    icon: <Icon icon='tdesign:user-setting' />,
-  },
-  {
-    key: "2",
-    label: <Link href='/'>Logout</Link>,
-    icon: <Icon icon='solar:logout-2-outline' />,
-    danger: true,
-  },
-];
+import { useGetUserQuery, useLogoutMutation } from "@/redux/features/user";
+
 const Header = () => {
   const { data, isLoading, error } = useGetUserQuery("");
+  const [logout] = useLogoutMutation();
+  const ProfieItems: MenuProps["items"] = [
+    {
+      key: "1",
+      label: <Link href='#'>Setting</Link>,
+      icon: <Icon icon='tdesign:user-setting' />,
+    },
+    {
+      key: "2",
+      label: <div onClick={() => logout("")}>Logout</div>,
+      icon: <Icon icon='solar:logout-2-outline' />,
+      danger: true,
+    },
+  ];
   console.log(data, "data");
   return (
     <>

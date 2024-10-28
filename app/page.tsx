@@ -1,15 +1,21 @@
-import { ExternalLink } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
-// import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Home = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+
+    if (access_token && access_token !== "") {
+      router.push("/patients");
+    }
+  }, []);
   return (
     <>
-      <h1 className="text-3xl font-bold">wellcome to extraction interface</h1>
-      <Link href="/login">Users</Link>
+      <h1 className='text-3xl font-bold'>wellcome to extraction interface</h1>
+      <Link href='/login'>Users</Link>
     </>
   );
 };

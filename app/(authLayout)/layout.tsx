@@ -1,14 +1,23 @@
 "use client";
 
 import AuthBackground from "@/components/auth/AuthBackground";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  //   const isCreateProfilePage = pathname === "/auth/create-profile";
+  const router = useRouter();
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+    // console.log(access_token, "access_token inlayout");
 
+    if (access_token && access_token !== "") {
+      router.push("/patients");
+    }
+  }, []);
   return (
     <main className={``}>
       <div className={` flex h-full w-full`}>
