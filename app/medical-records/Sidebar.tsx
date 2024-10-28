@@ -1,14 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+
 import { Icon } from "@iconify/react";
 import { Layout, Menu, theme } from "antd";
+import { useRouter } from "next/navigation";
 
-import UploadDocument from "./UploadDocument";
 import PatientList from "./PatientList";
 import HeaderContent from "./HeaderContent";
 
@@ -19,6 +15,11 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const router = useRouter();
+  const handleClick = (path: string) => {
+    router.push(path); // Navigate to the specified route
+  };
 
   return (
     <Layout className="min-h-screen">
@@ -49,6 +50,7 @@ const App: React.FC = () => {
                 />
               ),
               label: "Medical Records",
+              onClick: () => handleClick("/medical-records"),
             },
             {
               key: "2",
@@ -60,6 +62,7 @@ const App: React.FC = () => {
                 />
               ),
               label: "Upload Medical Records",
+              onClick: () => handleClick("/medical-records/upload"),
             },
             {
               key: "3",
