@@ -5,6 +5,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
+import { Icon } from "@iconify/react";
 import { Layout, Menu, theme } from "antd";
 
 import UploadDocument from "./UploadDocument";
@@ -12,17 +13,6 @@ import PatientList from "./PatientList";
 import HeaderContent from "./HeaderContent";
 
 const { Header, Content, Footer, Sider } = Layout;
-
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -48,7 +38,41 @@ const App: React.FC = () => {
           theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={items}
+          items={[
+            {
+              key: "1",
+              icon: (
+                <Icon
+                  icon="streamline:medical-files-report-history"
+                  width="1rem"
+                  height="1rem"
+                />
+              ),
+              label: "Medical Records",
+            },
+            {
+              key: "2",
+              icon: (
+                <Icon
+                  icon="material-symbols-light:upload"
+                  width="1rem"
+                  height="1rem"
+                />
+              ),
+              label: "Upload Medical Records",
+            },
+            {
+              key: "3",
+              icon: (
+                <Icon
+                  icon="iconamoon:profile-light"
+                  width="1rem"
+                  height="1rem"
+                />
+              ),
+              label: "Profile",
+            },
+          ]}
         />
       </Sider>
       <Layout>

@@ -29,9 +29,14 @@ const Header = () => {
         </div>
         <div className="flex items-center ">
           <Dropdown menu={{ items: ProfieItems }} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()} className="flex gap-1">
-              <Avatar size="large" icon={<UserOutlined />} />
-              <Icon icon="gridicons:dropdown" width="2rem" height="2rem" />
+            <a onClick={(e) => e.preventDefault()} className="flex gap-0">
+              <Avatar size="default" icon={<UserOutlined />} />
+              <Icon
+                icon="gridicons:dropdown"
+                width="1.5rem"
+                height="1.5rem"
+                className="pt-1"
+              />
             </a>
           </Dropdown>
         </div>
