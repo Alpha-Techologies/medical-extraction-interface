@@ -14,6 +14,7 @@ const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: baseURL,
   }),
+  tagTypes: ["User"],
   // extractRehydrationInfo(action, { reducerPath }) {
   //   if (action.type === HYDRATE) {
   //     return (action.payload as any)[reducerPath];

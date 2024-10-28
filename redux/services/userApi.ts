@@ -14,6 +14,9 @@ const userApi = baseApi.injectEndpoints({
         url: "/user/login",
         method: "POST",
         body: credentials,
+        headers: {
+          "Allow-Origin": "*",
+        },
       }),
     }),
 
@@ -23,6 +26,10 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+    }),
+    getUser: builder.query({
+      query: (_arg = "") => `/user/`,
+      providesTags: ["User"],
     }),
 
     // forgotPassword: builder.mutation<

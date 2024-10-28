@@ -122,32 +122,8 @@ const authSlice = createSlice({
     builder.addMatcher(
       userApi.endpoints.login.matchFulfilled,
       (state, { payload }: { payload: LoginApiResponse }) => {
-        state.token = payload.accessToken;
-        state.userId = payload.id;
-        state.userEmail = payload.email;
-        state.isAuthenticated = true;
-        state.isLoading = false;
-        state.accessToken = payload.accessToken;
-        state.refreshToken = payload.refresh_Token;
-        state.refreshTokenExpiryDate = payload.refresh_Token_Expiry_Date;
-        state.accessTokenExpiryDate = payload.access_Token_Expiry_Date;
-        localStorage.setItem("accessToken", payload.accessToken);
-        localStorage.setItem("refreshToken", payload.refresh_Token);
-        localStorage.setItem(
-          "refreshTokenExpiryDate",
-          payload.refresh_Token_Expiry_Date
-        );
-        localStorage.setItem(
-          "accessTokenExpiryDate",
-          payload.access_Token_Expiry_Date
-        );
-        // localStorage.setItem("auth", JSON.stringify(state));
-        document.cookie = `token=${
-          payload.accessToken
-        }; path=/; expires=${getExpirationDate()}`;
-        document.cookie = `refreshToken=${
-          payload.refresh_Token
-        }; path=/; expires=${getExpirationDate()}`;
+        localStorage.setItem("access_token", payload.access_token);
+        localStorage.setItem("refresh_token", payload.refresh_token);
       }
     );
 
@@ -175,9 +151,14 @@ const authSlice = createSlice({
     //   }
     // );
 
-    builder.addMatcher(userApi.endpoints.signup.matchFulfilled, (state) => {
-      state.isLoading = false;
-    });
+    builder.addMatcher(
+      userApi.endpoints.signup.matchFulfilled,
+      (state, { payload }: { payload: SignupApiResponse }) => {
+        state.isLoading = false;
+        localStorage.setItem("access_token", payload.access_token);
+        localStorage.setItem("refresh_token", payload.refresh_token);
+      }
+    );
 
     builder.addMatcher(
       userApi.endpoints.login.matchRejected,

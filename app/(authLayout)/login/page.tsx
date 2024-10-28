@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -20,7 +19,6 @@ export default function Login({}: Props) {
 
   // hook variables
   const router = useRouter();
-  const dispatch = useDispatch();
 
   // Login validation with yup
   const yupSync: any = {
@@ -35,8 +33,10 @@ export default function Login({}: Props) {
 
     const res = await login(credentials);
 
-    if (res && "access_token" in res) {
+    if (res && "data" in res) {
+      console.log("here ", res);
       toast.success("Account Successfully Created");
+      router.push("/patients");
     } else if (res && "error" in res) {
       const { error } = res as any;
       const errorMessage = error?.data?.message;

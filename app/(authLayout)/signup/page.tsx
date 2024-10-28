@@ -24,7 +24,7 @@ export default function SignUp() {
     const credentials = signupForm.getFieldsValue();
     const res = await signup(credentials);
     console.log(res);
-    if (res && "access_token" in res) {
+    if (res && "data" in res) {
       toast.success("Account Successfully Created");
       router.push("/patients");
     } else if (res && "error" in res) {

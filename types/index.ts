@@ -13,18 +13,17 @@ export interface SignupApiResponse {
   message: string;
   success: boolean;
   error?: string[];
-  statusCode: number;
+  refresh_token: string;
+  access_token: string;
 }
 export interface LoginApiResponse {
   success: boolean;
   message: string;
   id: string;
   email: string;
-  isVerified: boolean;
-  accessToken: string;
-  refresh_Token: string;
-  refresh_Token_Expiry_Date: string;
-  access_Token_Expiry_Date: string;
+  error?: string;
+  refresh_token: string;
+  access_token: string;
 }
 
 // types.ts
