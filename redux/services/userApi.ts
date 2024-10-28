@@ -11,7 +11,7 @@ const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginApiResponse, LoginCredentials>({
       query: (credentials: LoginCredentials) => ({
-        url: "/Authentication/login",
+        url: "/user/login",
         method: "POST",
         body: credentials,
       }),
@@ -19,7 +19,7 @@ const userApi = baseApi.injectEndpoints({
 
     signup: builder.mutation<SignupApiResponse, SignupCredentials>({
       query: (credentials: SignupCredentials) => ({
-        url: "/User/CreateUser",
+        url: "/user/register",
         method: "POST",
         body: credentials,
       }),
