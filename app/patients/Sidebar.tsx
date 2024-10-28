@@ -64,11 +64,7 @@ const App: React.FC = () => {
             {
               key: "3",
               icon: (
-                <Icon
-                  icon="iconamoon:profile-light"
-                  width="1rem"
-                  height="1rem"
-                />
+                <Icon icon="tdesign:user-setting" width="1rem" height="1rem" />
               ),
               label: "Profile",
             },
@@ -88,9 +84,7 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <div className="flex justify-end">
-              <UploadDocument />
-            </div>
+            <div className="flex justify-end">{/* <UploadDocument /> */}</div>
             <div>
               <PatientList></PatientList>
             </div>
