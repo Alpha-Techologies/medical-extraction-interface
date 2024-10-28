@@ -3,9 +3,8 @@ import { LoginApiResponse, SignupApiResponse } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import userApi from "../services/userApi";
 
-import { getExpirationDate } from "@/lib/date";
-import Router from "next/router";
-// import localStorage from 'redux-persist/es/storage';
+// import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 export interface AuthState {
   access_token: string;
@@ -50,7 +49,6 @@ const authSlice = createSlice({
       (state, { payload }) => {
         localStorage.setItem("access_token", "");
         localStorage.setItem("refresh_token", "");
-        Router.push("/login");
       }
     );
 

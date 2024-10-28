@@ -11,16 +11,20 @@ console.log("baseURL", baseURL);
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
+  prepareHeaders: (headers) => {
+    const access_token = localStorage.getItem("access_token");
+
+    if (access_token) {
+      headers.set("AccessToken", access_token);
+    }
+  },
 });
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log("is it here", result);
   // const router = useRouter();
 
   if (result.error && result.error.status === 401) {
-    console.log("error", result.error);
-    // Handle token refresh logic here
     const refresh_token = localStorage.getItem("refresh_token");
     const access_token = localStorage.getItem("access_token");
     console.log(refresh_token, "the refreshToken");
@@ -33,14 +37,12 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
       },
     });
 
-    const { data } = await refreshResponse.json();
-    console.log(data, " the data");
+    const data = await refreshResponse.json();
 
     if (data) {
       localStorage.setItem("access_token", data.new_access_token);
       result = await baseQuery(args, api, extraOptions);
     } else {
-      console.log("why not");
       localStorage.setItem("access_token", "");
       localStorage.setItem("refresh_token", "");
       redirect("/login");

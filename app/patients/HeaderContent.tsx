@@ -18,12 +18,17 @@ const Header = () => {
     },
     {
       key: "2",
-      label: <div onClick={() => logout("")}>Logout</div>,
+      label: (
+        <Link
+          href='/login'
+          onClick={() => logout("")}>
+          Logout
+        </Link>
+      ),
       icon: <Icon icon='solar:logout-2-outline' />,
       danger: true,
     },
   ];
-  console.log(data, "data");
   return (
     <>
       <div className='flex items-center justify-between'>
