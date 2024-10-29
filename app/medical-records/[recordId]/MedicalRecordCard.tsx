@@ -19,42 +19,42 @@ const MedicalRecordCard: React.FC<MedicalRecordCardProps> = ({ record }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <p>
             <span className="font-medium">Name:</span>{" "}
-            {record.PatientDemographics.Name || "-"}
+            {record?.PatientDemographics.Name || "-"}
           </p>
           <p>
             <span className="font-medium">Father's Name:</span>{" "}
-            {record.PatientDemographics.FatherName || "-"}
+            {record?.PatientDemographics.FatherName || "-"}
           </p>
           <p>
             <span className="font-medium">Grandfather's Name:</span>{" "}
-            {record.PatientDemographics.GrandFatherName || "-"}
+            {record?.PatientDemographics.GrandFatherName || "-"}
           </p>
           <p>
             <span className="font-medium">Gender:</span>{" "}
-            {record.PatientDemographics.Gender || "-"}
+            {record?.PatientDemographics.Gender || "-"}
           </p>
           <p>
             <span className="font-medium">Age:</span>{" "}
-            {record.PatientDemographics.Age || "-"}
+            {record?.PatientDemographics.Age || "-"}
           </p>
           <p>
             <span className="font-medium">Medical Record #:</span>{" "}
-            {record.PatientDemographics.MedicalRecordNumber || "-"}
+            {record?.PatientDemographics.MedicalRecordNumber || "-"}
           </p>
           <p>
             <span className="font-medium">Date of Registration:</span>{" "}
-            {record.PatientDemographics.DateOfRegistration || "-"}
+            {record?.PatientDemographics.DateOfRegistration || "-"}
           </p>
           <p>
             <span className="font-medium">Address:</span>{" "}
-            {record.PatientDemographics.Address.Region || "-"},{" "}
-            {record.PatientDemographics.Address.Wereda || "-"}, Kebele{" "}
-            {record.PatientDemographics.Address.Kebele || "-"}, House No.{" "}
-            {record.PatientDemographics.Address.HouseNumber || "-"}
+            {record?.PatientDemographics.Address.Region || "-"},{" "}
+            {record?.PatientDemographics.Address.Wereda || "-"}, Kebele{" "}
+            {record?.PatientDemographics.Address.Kebele || "-"}, House No.{" "}
+            {record?.PatientDemographics.Address.HouseNumber || "-"}
           </p>
           <p>
             <span className="font-medium">Phone:</span>{" "}
-            {record.PatientDemographics.PhoneNumber || "-"}
+            {record?.PatientDemographics.PhoneNumber || "-"}
           </p>
         </div>
       </section>
@@ -62,7 +62,7 @@ const MedicalRecordCard: React.FC<MedicalRecordCardProps> = ({ record }) => {
       {/* History Sheet Section */}
       <section>
         <h3 className="font-semibold text-lg">Medical History</h3>
-        {record.HistorySheet.map((history, index) => (
+        {record?.HistorySheet.map((history, index) => (
           <div key={index} className="border rounded-md p-4 my-4 bg-gray-50">
             <p>
               <span className="font-medium">Date:</span> {history.Date || "-"}
