@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 export default function SignUp() {
   const [signupForm] = Form.useForm();
   const router = useRouter();
-  // const [signup, { isLoading, error, isError }] = useSignupMutation();
-  // console.log(signup);
   const [signup, { isLoading }] = useSignupMutation();
 
   const yupSync: any = {

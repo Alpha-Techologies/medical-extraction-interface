@@ -72,6 +72,7 @@ const baseQueryWithReauth: BaseQueryFn<
       const release = await mutex.acquire();
       const access_token = api.getState().auth.access_token;
       const refresh_token = api.getState().auth.refresh_token;
+      // console.log("reauth");
 
       try {
         const refreshResponse = await fetch(`http://localhost:5000/user/auth`, {
@@ -81,6 +82,7 @@ const baseQueryWithReauth: BaseQueryFn<
             AccessToken: access_token || "",
           },
         });
+        // console.log(refreshResponse);
 
         if (refreshResponse.ok) {
           const data = await refreshResponse.json();
