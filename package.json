@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "extraction-interface": "file:",
     "install": "^0.13.0",
+    "lottie-web": "^5.12.2",
     "lucide-react": "^0.453.0",
     "moment": "^2.30.1",
     "next": "14.2.16",

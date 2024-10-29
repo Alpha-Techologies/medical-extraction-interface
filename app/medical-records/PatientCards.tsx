@@ -1,14 +1,32 @@
 // PatientCards.tsx
 "use client";
 import React, { useState } from "react";
+import Lottie from "lottie-web";
+import { useEffect, useRef } from "react";
+import animationData from "@/components/lottie/animation.json";
 import { MedicalRecord } from "../../types";
 import { useRouter } from "next/navigation";
 import { MedicalRecords } from "../sam";
 import { Button } from "antd";
 import { useGetMedicalRecordsQuery } from "@/redux/features/records";
+import { Icon } from "@iconify/react";
 
 const PatientCards: React.FC = () => {
   const router = useRouter();
+  const animationContainer = useRef(null);
+  useEffect(() => {
+    const animation = Lottie.loadAnimation({
+      container: animationContainer.current as any,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        className: "w-1/8 h-1/8",
+      },
+    });
+    return () => animation.destroy();
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredRecords, setFilteredRecords] = useState<MedicalRecord[]>([]);
@@ -110,9 +128,16 @@ const PatientCards: React.FC = () => {
             No records found for "{searchQuery}"
           </p>
         ) : (
-          <p className='text-gray-500 text-center'>
-            Enter a search term to view medical records.
-          </p>
+          <div className='flex item-center justify-center w-full h-full'>
+            {/* <div
+              className='flex items-center justify-center border w-1/8 h-1/8'
+              ref={animationContainer}></div> */}
+            {/* <Icon
+              className='w-[200px]'
+              icon='icon-park:search'
+            /> */}
+            <p>Search for records.</p>
+          </div>
         )}
       </div>
     </>
