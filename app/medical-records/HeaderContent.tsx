@@ -8,7 +8,7 @@ import { Upload } from "lucide-react";
 import { useGetUserQuery, useLogoutMutation } from "@/redux/features/user";
 
 const Header = () => {
-  const { data, isLoading } = useGetUserQuery("");
+  // const { data, isLoading } = useGetUserQuery("");
   const [logout] = useLogoutMutation();
   const ProfieItems: MenuProps["items"] = [
     {
@@ -19,7 +19,7 @@ const Header = () => {
     {
       key: "2",
       label: (
-        <Link href="/" onClick={() => logout("")}>
+        <Link href="/home" onClick={() => logout("")}>
           Logout
         </Link>
       ),
@@ -29,15 +29,18 @@ const Header = () => {
   ];
 
   const { data: user } = useGetUserQuery("");
+  // console.log(user);
+
   return (
     <>
       <div className="flex items-center justify-between">
-        <div className="flex items-center">
+        <div>
           <span className="text-xl font-semibold ml-2">
             {user?.organization}
           </span>
         </div>
-        <div>
+        <div className="flex gap-2">
+          <span className="text-base font-semibold ">{user?.first_name}</span>
           <Dropdown menu={{ items: ProfieItems }} trigger={["click"]}>
             <a onClick={(e) => e.preventDefault()} className="flex gap-0">
               <Avatar size="default" icon={<UserOutlined />} />

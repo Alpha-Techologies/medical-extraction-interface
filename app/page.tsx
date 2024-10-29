@@ -12,14 +12,11 @@ const Home = () => {
   useEffect(() => {
     if (access_token && access_token !== "") {
       router.push("/medical-records");
+    } else {
+      router.push("/home");
     }
   }, []);
-  return (
-    <>
-      <h1 className="text-3xl font-bold">wellcome to extraction interface</h1>
-      <Link href="/login">Users</Link>
-    </>
-  );
+  return <></>;
 };
 
 export default Home;
