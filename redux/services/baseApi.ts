@@ -1,6 +1,5 @@
-import store from "../store";
-import { setAuth, resetAuth } from "../slices/authSlice";
-import Router from "next/router";
+// import store from "../store";
+// import { setAuth, resetAuth } from "../slices/authSlice";
 import { Mutex } from "async-mutex";
 import {
   BaseQueryFn,
@@ -10,9 +9,10 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "react-toastify";
+import { refreshAuth, resetAuth } from "../slices/authSlice";
 
 const baseURL = process.env.BACKEND_URL || "http://localhost:5000";
-console.log("baseURL", baseURL);
+// console.log("baseURL", baseURL);
 
 const mutex = new Mutex();
 
@@ -45,9 +45,9 @@ const fetchWithTimeout = async (
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
-  prepareHeaders: (headers) => {
-    const access_token = store.getState().auth.access_token;
-    const refresh_token = store.getState().auth.refresh_token;
+  prepareHeaders: (headers, { getState }: any) => {
+    const access_token = getState()?.auth?.access_token;
+    const refresh_token = getState()?.auth?.refresh_token;
 
     if (access_token) {
       headers.set("AccessToken", access_token);
@@ -70,8 +70,8 @@ const baseQueryWithReauth: BaseQueryFn<
   if (result.error && result.error.status === 401) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
-      const access_token = store.getState().auth.access_token;
-      const refresh_token = store.getState().auth.refresh_token;
+      const access_token = api.getState().auth.access_token;
+      const refresh_token = api.getState().auth.refresh_token;
 
       try {
         const refreshResponse = await fetch(`http://localhost:5000/user/auth`, {
@@ -87,8 +87,8 @@ const baseQueryWithReauth: BaseQueryFn<
 
           if (data && data.new_access_token) {
             // Save the new token in the store
-            store.dispatch(
-              setAuth({ new_access_token: data.new_access_token })
+            api.dispatch(
+              refreshAuth({ new_access_token: data.new_access_token })
             );
 
             result = await baseQuery(args, api, extraOptions);
@@ -99,8 +99,7 @@ const baseQueryWithReauth: BaseQueryFn<
           throw new Error("Failed to refresh token");
         }
       } catch (error) {
-        store.dispatch(resetAuth());
-        // Router.push("/login");
+        api.dispatch(resetAuth());
       } finally {
         release();
       }
@@ -116,6 +115,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const baseApi = createApi({
   baseQuery: baseQueryWithReauth,
   reducerPath: "baseApi",
-  tagTypes: ["User"],
+  tagTypes: ["User", "Records"],
   endpoints: () => ({}),
 });

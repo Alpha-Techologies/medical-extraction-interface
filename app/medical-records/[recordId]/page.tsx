@@ -1,8 +1,8 @@
 // pages/MedicalRecordPage.tsx
+"use client";
 import React from "react";
 import MedicalRecordCard from "./MedicalRecordCard";
 import { MedicalRecord } from "../../../types";
-import { MedicalRecords } from "../../../app/sam";
 import { useGetMedicalRecordsQuery } from "@/redux/features/records";
 
 interface MedicalRecordPageProps {
@@ -20,7 +20,7 @@ const MedicalRecordPage: React.FC<MedicalRecordPageProps> = ({ params }) => {
   );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className='container mx-auto p-4'>
       {record ? <MedicalRecordCard record={record} /> : <p>Record not found</p>}
     </div>
   );

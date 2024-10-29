@@ -6,7 +6,7 @@ import {
 } from "@/types";
 
 import { baseApi } from "./baseApi";
-import store from "../store";
+import { setAuth, resetAuth } from "../slices/authSlice";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,6 +16,22 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            setAuth({
+              access_token: data.access_token,
+              refresh_token: data.refresh_token,
+            })
+          );
+          // // Optionally save tokens to localStorage
+          // localStorage.setItem("access_token", data.access_token);
+          // localStorage.setItem("refresh_token", data.refresh_token);
+        } catch (error) {
+          // Handle error as needed
+        }
+      },
     }),
     login: builder.mutation<LoginApiResponse, LoginCredentials>({
       query: (credentials: LoginCredentials) => ({
@@ -23,18 +39,28 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            setAuth({
+              access_token: data.access_token,
+              refresh_token: data.refresh_token,
+            })
+          );
+          // // Optionally save tokens to localStorage
+          // localStorage.setItem("access_token", data.access_token);
+          // localStorage.setItem("refresh_token", data.refresh_token);
+        } catch (error) {
+          // Handle error as needed
+        }
+      },
     }),
     getUser: builder.query({
       query: (_arg = "") => {
-        // const access_token = localStorage.getItem("access_token");
-        // const refresh_token = localStorage.getItem("refresh_token");
-        const access_token = store.getState().auth.access_token;
-        const refresh_token = store.getState().auth.refresh_token;
-
         return {
           url: `/user/`,
           method: "GET",
-          headers: access_token ? { AccessToken: access_token } : {},
         };
       },
       providesTags: ["User"],
@@ -53,13 +79,21 @@ const userApi = baseApi.injectEndpoints({
     }),
     logout: builder.mutation<any, any>({
       query: (_arg = "") => {
-        const token = localStorage.getItem("access_token");
-
         return {
           url: "/user/logout",
           method: "GET",
-          headers: token ? { AccessToken: token } : {},
         };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(resetAuth());
+          // Optionally save tokens to localStorage
+          // localStorage.setItem("access_token", data.access_token);
+          // localStorage.setItem("refresh_token", data.refresh_token);
+        } catch (error) {
+          // Handle error as needed
+        }
       },
     }),
   }),

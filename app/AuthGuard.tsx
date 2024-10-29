@@ -11,10 +11,10 @@ interface AuthGuardProps {
 const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const access_token = useSelector(
-    (state: RootState) => state.auth.access_token
+    (state: RootState) => state?.auth?.access_token
   );
   const refresh_token = useSelector(
-    (state: RootState) => state.auth.refresh_token
+    (state: RootState) => state?.auth?.refresh_token
   );
 
   useEffect(() => {

@@ -11,10 +11,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const access_token = useSelector((state: any) => state.auth.access_token);
-  const refresh_token = useSelector((state: any) => state.auth.refresh_token);
-
-  console.log(access_token, refresh_token, "the token sin redux");
+  const access_token = useSelector((state: any) => state?.auth?.access_token);
+  const refresh_token = useSelector((state: any) => state?.auth?.refresh_token);
 
   useEffect(() => {
     if (access_token && access_token !== "") {
@@ -25,7 +23,7 @@ export default function AuthLayout({
     <main className={``}>
       <div className={` flex h-full w-full`}>
         <div className={"lg:w-[35%] w-full"}>{children}</div>
-        <div className="w-[75%] hidden lg:block">
+        <div className='w-[75%] hidden lg:block'>
           <AuthBackground />
         </div>
       </div>

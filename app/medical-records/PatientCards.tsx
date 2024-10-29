@@ -14,8 +14,6 @@ const PatientCards: React.FC = () => {
   const [filteredRecords, setFilteredRecords] = useState<MedicalRecord[]>([]);
   const { data, isLoading } = useGetMedicalRecordsQuery("");
 
-  console.log(data?.data);
-
   const records: MedicalRecord[] = filteredRecords;
 
   // Handle search input change
@@ -39,61 +37,59 @@ const PatientCards: React.FC = () => {
   };
   return (
     <>
-      <div className="container mx-auto p-4">
+      <div className='container mx-auto p-4'>
         {/* Centered Search Bar */}
-        <div className="flex justify-center mb-8">
+        <div className='flex justify-center mb-8'>
           <input
-            type="text"
+            type='text'
             value={searchQuery}
             onChange={handleSearch}
-            placeholder="Search by Name or Medical Record Number"
-            className="w-1/2 p-3 text-md border border-gray-300 rounded-3xl shadow focus:outline-none focus:border-blue-500"
+            placeholder='Search by Name or Medical Record Number'
+            className='w-1/2 p-3 text-md border border-gray-300 rounded-3xl shadow focus:outline-none focus:border-blue-500'
           />
         </div>
 
         {searchQuery && filteredRecords.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4">
+          <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4'>
             {records.map((record, index) => (
               <div
                 key={index}
-                className="bg-white shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow"
-              >
-                <h2 className="text-lg font-semibold text-[#0388e5]">
+                className='bg-white shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow'>
+                <h2 className='text-lg font-semibold text-[#0388e5]'>
                   {record.PatientDemographics.Name || "-"}
                 </h2>
                 {/* <h2 className="text-base font-semibold text-[#0388e5]">
             ({record.PatientDemographics.Age} years)
           </h2> */}
 
-                <p className="text-gray-600">
+                <p className='text-gray-600'>
                   <strong>Age:</strong> {record.PatientDemographics.Age || "-"}{" "}
                   years
                 </p>
-                <p className="text-gray-600">
+                <p className='text-gray-600'>
                   <strong>MRN:</strong>{" "}
                   {record.PatientDemographics.MedicalRecordNumber || "-"}
                 </p>
-                <p className="text-gray-600">
+                <p className='text-gray-600'>
                   <strong>Gender:</strong>{" "}
                   {record.PatientDemographics.Gender || "-"}
                 </p>
-                <p className="text-gray-600">
+                <p className='text-gray-600'>
                   <strong>Region:</strong>{" "}
                   {record.PatientDemographics.Address.Region || "-"},{" "}
                   {record.PatientDemographics.Address.Wereda || "-"}, House No.{" "}
                   {record.PatientDemographics.Address.HouseNumber || "-"}
                 </p>
-                <p className="text-gray-600">
+                <p className='text-gray-600'>
                   <strong>Phone:</strong>{" "}
                   {record.PatientDemographics.PhoneNumber || "-"}
                 </p>
 
-                <div className="flex justify-center mt-3">
+                <div className='flex justify-center mt-3'>
                   <Button
-                    color="primary"
-                    variant="text"
-                    href={`/medical-records/${record.PatientDemographics.MedicalRecordNumber}`}
-                  >
+                    color='primary'
+                    variant='text'
+                    href={`/medical-records/${record.PatientDemographics.MedicalRecordNumber}`}>
                     View Medical History
                   </Button>
                 </div>
@@ -110,11 +106,11 @@ const PatientCards: React.FC = () => {
             ))}
           </div>
         ) : searchQuery && filteredRecords.length === 0 ? (
-          <p className="text-gray-500 text-center">
+          <p className='text-gray-500 text-center'>
             No records found for "{searchQuery}"
           </p>
         ) : (
-          <p className="text-gray-500 text-center">
+          <p className='text-gray-500 text-center'>
             Enter a search term to view medical records.
           </p>
         )}
