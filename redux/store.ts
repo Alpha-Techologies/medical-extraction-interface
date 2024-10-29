@@ -1,26 +1,58 @@
+// import { configureStore } from "@reduxjs/toolkit";
+// import { persistStore, persistReducer } from "redux-persist";
+// import storage from "redux-persist/lib/storage";
+// // import rootReducer from './reducers';
+// import { baseApi } from "./services/baseApi";
+// import authSlice from "./slices/authSlice";
+
+// const persistConfig = {
+//   key: "root",
+//   storage,
+// };
+
+// const persistedReducer = persistReducer(persistConfig, authSlice);
+
+// const store = configureStore({
+//   reducer: {
+//     [baseApi.reducerPath]: baseApi.reducer,
+//     auth: authSlice,
+//     persisted: persistedReducer, // Include the persisted reducer in the store
+//   },
+//   middleware: (getDefaultMiddleware) => {
+//     return getDefaultMiddleware().concat(baseApi.middleware);
+//   },
+//   devTools: true,
+// });
+
+// export const persistor = persistStore(store);
+// export type RootState = ReturnType<typeof store.getState>;
+// export default store;
+
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-// import rootReducer from './reducers';
-import { baseApi } from "./services/baseApi";
 import authSlice from "./slices/authSlice";
+import { baseApi } from "./services/baseApi";
 
 const persistConfig = {
-  key: "root",
+  key: "auth",
   storage,
 };
+// console.log(baseApi);
 
-const persistedReducer = persistReducer(persistConfig, authSlice);
+const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 
 const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    auth: authSlice,
-    persisted: persistedReducer, // Include the persisted reducer in the store
+    auth: persistedAuthReducer, // Use persisted reducer for auth
   },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(baseApi.middleware);
-  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }).concat(baseApi.middleware),
   devTools: true,
 });
 

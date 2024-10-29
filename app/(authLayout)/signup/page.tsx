@@ -27,7 +27,7 @@ export default function SignUp() {
     console.log(res);
     if (res && "data" in res) {
       toast.success("Account Successfully Created");
-      router.push("/patients");
+      router.push("/medical-records");
     } else if (res && "error" in res) {
       const { error } = res as any;
       const errorMessage = error?.data?.message;

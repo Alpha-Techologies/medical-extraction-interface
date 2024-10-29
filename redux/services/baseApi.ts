@@ -1,51 +1,78 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { redirect } from "next/navigation";
-// import Router from "next/router";
-// import { useRouter } from "next/navigation";
-/**
- * The base API config for making API requests.
- */
+import store from "../store";
+import { setAuth, resetAuth } from "../slices/authSlice";
+import Router from "next/router";
+import { Mutex } from "async-mutex";
 
 const baseURL = process.env.BACKEND_URL || "http://localhost:5000";
 console.log("baseURL", baseURL);
 
+const mutex = new Mutex();
+
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
   prepareHeaders: (headers) => {
-    const access_token = localStorage.getItem("access_token");
+    const access_token = store.getState().auth.access_token;
 
     if (access_token) {
       headers.set("AccessToken", access_token);
     }
+
+    return headers;
   },
 });
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+  await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
   // const router = useRouter();
 
   if (result.error && result.error.status === 401) {
-    const refresh_token = localStorage.getItem("refresh_token");
-    const access_token = localStorage.getItem("access_token");
-    console.log(refresh_token, "the refreshToken");
+    if (!mutex.isLocked()) {
+      const release = await mutex.acquire();
+      const access_token = store.getState().auth.access_token;
+      const refresh_token = store.getState().auth.refresh_token;
+      console.log(
+        refresh_token,
+        access_token,
+        "the accessToken",
+        "the refreshToken"
+      );
 
-    const refreshResponse = await fetch(`http://localhost:5000/user/auth`, {
-      method: "GET",
-      headers: {
-        RefreshToken: refresh_token || "",
-        AccessToken: access_token || "",
-      },
-    });
+      try {
+        const refreshResponse = await fetch(`http://localhost:5000/user/auth`, {
+          method: "GET",
+          headers: {
+            RefreshToken: refresh_token || "",
+            AccessToken: access_token || "",
+          },
+        });
 
-    const data = await refreshResponse.json();
+        if (refreshResponse.ok) {
+          const data = await refreshResponse.json();
 
-    if (data) {
-      localStorage.setItem("access_token", data.new_access_token);
-      result = await baseQuery(args, api, extraOptions);
+          if (data && data.new_access_token) {
+            // Save the new token in the store
+            store.dispatch(
+              setAuth({ new_access_token: data.new_access_token })
+            );
+
+            result = await baseQuery(args, api, extraOptions);
+          } else {
+            throw new Error("Token refresh failed");
+          }
+        } else {
+          throw new Error("Failed to refresh token");
+        }
+      } catch (error) {
+        store.dispatch(resetAuth());
+        Router.push("/login");
+      } finally {
+        release();
+      }
     } else {
-      localStorage.setItem("access_token", "");
-      localStorage.setItem("refresh_token", "");
-      redirect("/login");
+      await mutex.waitForUnlock();
+      result = await baseQuery(args, api, extraOptions);
     }
   }
 

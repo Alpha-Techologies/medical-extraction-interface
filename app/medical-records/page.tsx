@@ -2,11 +2,14 @@
 import React from "react";
 import Sidebar from "@/app/medical-records/Sidebar";
 import PatientList from "./PatientList";
+import AuthGuard from "../AuthGuard";
 
 const PatientsDashboard = () => {
   return (
     <>
-      <PatientList></PatientList>
+      <AuthGuard>
+        <PatientList></PatientList>
+      </AuthGuard>
     </>
   );
 };

@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const router = useRouter();
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
 
+  const access_token = useSelector((state: any) => state.auth.access_token);
+  const refresh_token = useSelector((state: any) => state.auth.refresh_token);
+  useEffect(() => {
     if (access_token && access_token !== "") {
-      router.push("/patients");
+      router.push("/medical-records");
     }
   }, []);
   return (
