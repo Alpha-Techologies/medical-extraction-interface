@@ -37,6 +37,7 @@ import authSlice from "./slices/authSlice";
 const persistConfig = {
   key: "auth",
   storage,
+  timeout: 1000,
 };
 // console.log(baseApi);
 
