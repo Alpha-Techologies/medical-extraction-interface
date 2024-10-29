@@ -6,6 +6,7 @@ import {
 } from "@/types";
 
 import { baseApi } from "./baseApi";
+import store from "../store";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,8 +26,10 @@ const userApi = baseApi.injectEndpoints({
     }),
     getUser: builder.query({
       query: (_arg = "") => {
-        const access_token = localStorage.getItem("access_token");
-        const refresh_token = localStorage.getItem("refresh_token");
+        // const access_token = localStorage.getItem("access_token");
+        // const refresh_token = localStorage.getItem("refresh_token");
+        const access_token = store.getState().auth.access_token;
+        const refresh_token = store.getState().auth.refresh_token;
 
         return {
           url: `/user/`,
