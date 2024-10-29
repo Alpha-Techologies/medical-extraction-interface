@@ -13,9 +13,11 @@ const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
   prepareHeaders: (headers) => {
     const access_token = store.getState().auth.access_token;
+    const refresh_token = store.getState().auth.refresh_token;
 
     if (access_token) {
       headers.set("AccessToken", access_token);
+      headers.set("RefreshToken", refresh_token);
     }
 
     return headers;
