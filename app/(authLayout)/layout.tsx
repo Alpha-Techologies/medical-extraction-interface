@@ -15,14 +15,14 @@ export default function AuthLayout({
     // console.log(access_token, "access_token inlayout");
 
     if (access_token && access_token !== "") {
-      router.push("/patients");
+      router.push("/medical-records");
     }
   }, []);
   return (
     <main className={``}>
       <div className={` flex h-full w-full`}>
         <div className={"lg:w-[35%] w-full"}>{children}</div>
-        <div className='w-[75%] hidden lg:block'>
+        <div className="w-[75%] hidden lg:block">
           <AuthBackground />
         </div>
       </div>

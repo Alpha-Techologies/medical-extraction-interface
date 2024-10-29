@@ -33,8 +33,8 @@ export default function Login({}: Props) {
 
     if (res && "data" in res) {
       console.log("here ", res);
-      toast.success("Account Successfully Created");
-      router.push("/patients");
+      toast.success("Account Successfully Logged In");
+      router.push("/medical-records");
     } else if (res && "error" in res) {
       const { error } = res as any;
       const errorMessage = error?.data?.message;
@@ -45,51 +45,44 @@ export default function Login({}: Props) {
   };
 
   return (
-    <div className='h-full w-full flex items-start justify-center font-inter py-8'>
+    <div className="h-full w-full flex items-start justify-center font-inter py-8">
       <ToastContainer />
-      <div className='w-2/3 gap-4'>
-        <div className='flex items-start flex-col mb-8'>
-          <h1 className='text-4xl justified font-roboto text-black mb-2'>
+      <div className="w-2/3 gap-4">
+        <div className="flex items-start flex-col mb-8">
+          <h1 className="text-4xl justified font-roboto text-black mb-2">
             Welcome Back
           </h1>
-          <p className='text-gray-600'>
+          <p className="text-gray-600">
             Sign in ot continue using our services
           </p>
         </div>
 
         <Form
-          className='flex flex-col space-y-2 mb-3 text-secondary'
+          className="flex flex-col space-y-2 mb-3 text-secondary"
           form={loginForm}
-          name='horizontal_login'
-          layout='inline'
-          onFinish={handleSubmit}>
-          <Form.Item
-            name='email'
-            className='w-full '
-            rules={[yupSync]}>
-            <Input
-              className='h-9'
-              placeholder='Email'
-            />
+          name="horizontal_login"
+          layout="inline"
+          onFinish={handleSubmit}
+        >
+          <Form.Item name="email" className="w-full " rules={[yupSync]}>
+            <Input className="h-9" placeholder="Email" />
           </Form.Item>
-          <Form.Item
-            name='password'
-            className='w-full'
-            rules={[yupSync]}>
+          <Form.Item name="password" className="w-full" rules={[yupSync]}>
             <Input.Password
-              type='password'
-              className='h-9'
-              placeholder='Password'
+              type="password"
+              className="h-9"
+              placeholder="Password"
             />
           </Form.Item>
-          <Form.Item className='w-full'>
+          <Form.Item className="w-full">
             <Button
               disabled={isLoading}
-              className='bg-primary font-medium text-sm py-3 w-full flex items-center justify-center text-white cursor-pointer border border-[primary] hover:bg-white hover:text-primary transition duration-150 ease-linear rounded-3xl my-3'
-              htmlType='submit'>
+              className="bg-primary font-medium text-sm py-3 w-full flex items-center justify-center text-white cursor-pointer border border-[primary] hover:bg-white hover:text-primary transition duration-150 ease-linear rounded-3xl my-3"
+              htmlType="submit"
+            >
               {isLoading ? (
-                <div className='flex items-center justify-center gap-x-3 bg-transparent'>
-                  <div className='spinner'></div>
+                <div className="flex items-center justify-center gap-x-3 bg-transparent">
+                  <div className="spinner"></div>
                   <span>Processing . . .</span>
                 </div>
               ) : (
@@ -108,17 +101,15 @@ export default function Login({}: Props) {
             </Link>
           </div>
         </div> */}
-        <div className='text-center pt-2 mt-3'></div>
+        <div className="text-center pt-2 mt-3"></div>
         {/* End of Forgot Password Link */}
 
         {/* Signup Link */}
-        <div className='text-center pt-2 mt-3'>
-          <div className='text-12 flex justify-center items-center'>
-            <p className='text-black'>I don{"'"}t have an account?</p>
-            <Link
-              href='/signup'
-              className='pl-2'>
-              <span className='text-primary hover:underline'>Sign Up</span>
+        <div className="text-center pt-2 mt-3">
+          <div className="text-12 flex justify-center items-center">
+            <p className="text-black">I don{"'"}t have an account?</p>
+            <Link href="/signup" className="pl-2">
+              <span className="text-primary hover:underline">Sign Up</span>
             </Link>
           </div>
         </div>
