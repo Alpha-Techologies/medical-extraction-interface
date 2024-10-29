@@ -5,36 +5,26 @@ import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import Link from "next/link";
 import { Upload } from "lucide-react";
-import { useGetUserQuery, useLogoutMutation } from "@/redux/features/user";
-
+const ProfieItems: MenuProps["items"] = [
+  {
+    key: "1",
+    label: <Link href='#'>Setting</Link>,
+    icon: <Icon icon='tdesign:user-setting' />,
+  },
+  {
+    key: "2",
+    label: <Link href='/'>Logout</Link>,
+    icon: <Icon icon='solar:logout-2-outline' />,
+    danger: true,
+  },
+];
 const Header = () => {
-  const { data, isLoading, error } = useGetUserQuery("");
-  const [logout] = useLogoutMutation();
-  const ProfieItems: MenuProps["items"] = [
-    {
-      key: "1",
-      label: <Link href='#'>Setting</Link>,
-      icon: <Icon icon='tdesign:user-setting' />,
-    },
-    {
-      key: "2",
-      label: (
-        <Link
-          href='/login'
-          onClick={() => logout("")}>
-          Logout
-        </Link>
-      ),
-      icon: <Icon icon='solar:logout-2-outline' />,
-      danger: true,
-    },
-  ];
   return (
     <>
       <div className='flex items-center justify-between'>
         <div className='flex items-center'>
           <span className='text-xl font-semibold ml-2'>
-            {data?.organization}
+            Tekelehaymanot General Hospital
           </span>
         </div>
         <div className='flex items-center '>
