@@ -73,7 +73,14 @@ const UploadDocument: React.FC = () => {
       }
     }
   };
+
+  const resetPreview = () => {
+    setPreviewImage(null);
+    setFileToUpload(null);
+  };
+
   const deleteRecord = async (id: any) => {
+    resetPreview();
     try {
       console.log(id.$oid);
       const response = await fetch(
@@ -95,8 +102,6 @@ const UploadDocument: React.FC = () => {
       if (response.ok) {
         message.success("Extracted data deleted successfully.");
         setPreviewExtracted(false);
-        setPreviewImage(null);
-        setFileToUpload(null);
       } else {
         message.error("Record deletion failed.");
       }
@@ -105,10 +110,6 @@ const UploadDocument: React.FC = () => {
     }
   };
 
-  const resetPreview = () => {
-    setPreviewImage(null);
-    setFileToUpload(null);
-  };
   const resetExtractedPreview = () => {
     setPreviewExtracted(false);
   };
