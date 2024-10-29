@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Form, Input, Button } from "antd";
 import { SignUpValidation } from "@/utils/schema";
-import { useLoginMutation, useSignupMutation } from "@/redux/features/user";
+import { useSignupMutation } from "@/redux/features/user";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ export default function SignUp() {
   const router = useRouter();
   // const [signup, { isLoading, error, isError }] = useSignupMutation();
   // console.log(signup);
-  const [login, { isLoading }] = useLoginMutation();
+  const [signup, { isLoading }] = useSignupMutation();
 
   const yupSync: any = {
     async validator({ field }: { field: string }, value: string) {
@@ -23,7 +23,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const credentials = signupForm.getFieldsValue();
-    const res = await login(credentials);
+    const res = await signup(credentials);
     if (res && "data" in res) {
       toast.success("Account Successfully Created");
       router.push("/medical-records");
