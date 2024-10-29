@@ -5,7 +5,7 @@ import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import Link from "next/link";
 import { Upload } from "lucide-react";
-import { useLogoutMutation } from "@/redux/features/user";
+import { useGetUserQuery, useLogoutMutation } from "@/redux/features/user";
 
 const Header = () => {
   const [logout] = useLogoutMutation();
@@ -28,12 +28,15 @@ const Header = () => {
       danger: true,
     },
   ];
+
+  const { data: user } = useGetUserQuery("");
+  console.log(user);
   return (
     <>
       <div className='flex items-center justify-between'>
         <div className='flex items-center'>
           <span className='text-xl font-semibold ml-2'>
-            Tekelehaymanot General Hospital
+            {user?.organization}
           </span>
         </div>
         <div className='flex items-center '>

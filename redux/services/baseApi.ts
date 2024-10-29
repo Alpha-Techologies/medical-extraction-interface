@@ -1,13 +1,47 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import store from "../store";
 import { setAuth, resetAuth } from "../slices/authSlice";
 import Router from "next/router";
 import { Mutex } from "async-mutex";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
+import { toast } from "react-toastify";
 
 const baseURL = process.env.BACKEND_URL || "http://localhost:5000";
 console.log("baseURL", baseURL);
 
 const mutex = new Mutex();
+
+const fetchWithTimeout = async (
+  input: any,
+  init?: any,
+  timeout: number = 35000
+): Promise<Response> => {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(input, {
+      ...init,
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+  } catch (error: any) {
+    clearTimeout(id);
+    if (error.name === "AbortError") {
+      toast.error("Request timed out!");
+      throw new Error("timeout");
+    } else if (error instanceof TypeError) {
+      toast.error("Please, Connect to the internet and try again.");
+      throw new Error("timeout");
+    }
+    throw error;
+  }
+};
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
@@ -24,7 +58,11 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args: any, api: any, extraOptions: any) => {
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
   // const router = useRouter();
@@ -34,12 +72,6 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
       const release = await mutex.acquire();
       const access_token = store.getState().auth.access_token;
       const refresh_token = store.getState().auth.refresh_token;
-      console.log(
-        refresh_token,
-        access_token,
-        "the accessToken",
-        "the refreshToken"
-      );
 
       try {
         const refreshResponse = await fetch(`http://localhost:5000/user/auth`, {

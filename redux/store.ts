@@ -37,6 +37,7 @@ import { baseApi } from "./services/baseApi";
 const persistConfig = {
   key: "auth",
   storage,
+  timeout: 1000,
 };
 // console.log(baseApi);
 
