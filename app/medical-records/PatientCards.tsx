@@ -5,12 +5,17 @@ import { MedicalRecord } from "../../types";
 import { useRouter } from "next/navigation";
 import { MedicalRecords } from "../sam";
 import { Button } from "antd";
+import { useGetMedicalRecordsQuery } from "@/redux/features/records";
 
 const PatientCards: React.FC = () => {
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredRecords, setFilteredRecords] = useState<MedicalRecord[]>([]);
+  const { data, isLoading } = useGetMedicalRecordsQuery("");
+
+  console.log(data?.data);
+
   const records: MedicalRecord[] = filteredRecords;
 
   // Handle search input change
@@ -20,8 +25,8 @@ const PatientCards: React.FC = () => {
 
     // Filter medical records based on the query
     if (query) {
-      const filtered = MedicalRecords.filter(
-        (record) =>
+      const filtered = data?.data?.filter(
+        (record: MedicalRecord) =>
           record.PatientDemographics.Name.toLowerCase().includes(query) ||
           record.PatientDemographics.MedicalRecordNumber.toLowerCase().includes(
             query
@@ -54,31 +59,33 @@ const PatientCards: React.FC = () => {
                 className="bg-white shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow"
               >
                 <h2 className="text-lg font-semibold text-[#0388e5]">
-                  {record.PatientDemographics.Name}
+                  {record.PatientDemographics.Name || "-"}
                 </h2>
                 {/* <h2 className="text-base font-semibold text-[#0388e5]">
             ({record.PatientDemographics.Age} years)
           </h2> */}
 
                 <p className="text-gray-600">
-                  <strong>Age:</strong> {record.PatientDemographics.Age} years
+                  <strong>Age:</strong> {record.PatientDemographics.Age || "-"}{" "}
+                  years
                 </p>
                 <p className="text-gray-600">
                   <strong>MRN:</strong>{" "}
-                  {record.PatientDemographics.MedicalRecordNumber}
+                  {record.PatientDemographics.MedicalRecordNumber || "-"}
                 </p>
                 <p className="text-gray-600">
-                  <strong>Gender:</strong> {record.PatientDemographics.Gender}
+                  <strong>Gender:</strong>{" "}
+                  {record.PatientDemographics.Gender || "-"}
                 </p>
                 <p className="text-gray-600">
                   <strong>Region:</strong>{" "}
-                  {record.PatientDemographics.Address.Region},{" "}
-                  {record.PatientDemographics.Address.Wereda}, House No.{" "}
-                  {record.PatientDemographics.Address.HouseNumber}
+                  {record.PatientDemographics.Address.Region || "-"},{" "}
+                  {record.PatientDemographics.Address.Wereda || "-"}, House No.{" "}
+                  {record.PatientDemographics.Address.HouseNumber || "-"}
                 </p>
                 <p className="text-gray-600">
                   <strong>Phone:</strong>{" "}
-                  {record.PatientDemographics.Address.PhoneNumber}
+                  {record.PatientDemographics.PhoneNumber || "-"}
                 </p>
 
                 <div className="flex justify-center mt-3">
@@ -87,7 +94,7 @@ const PatientCards: React.FC = () => {
                     variant="text"
                     href={`/medical-records/${record.PatientDemographics.MedicalRecordNumber}`}
                   >
-                    View Medical Record
+                    View Medical History
                   </Button>
                 </div>
 

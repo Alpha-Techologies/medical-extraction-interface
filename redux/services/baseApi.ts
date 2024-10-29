@@ -68,7 +68,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
         }
       } catch (error) {
         store.dispatch(resetAuth());
-        Router.push("/login");
+        // Router.push("/login");
       } finally {
         release();
       }

@@ -6,8 +6,10 @@ import type { MenuProps } from "antd";
 import Link from "next/link";
 import { Upload } from "lucide-react";
 import { useLogoutMutation } from "@/redux/features/user";
+import { useGetUserQuery } from "@/redux/features/user";
 
 const Header = () => {
+  const { data, isLoading } = useGetUserQuery("");
   const [logout] = useLogoutMutation();
   const ProfieItems: MenuProps["items"] = [
     {
@@ -26,6 +28,8 @@ const Header = () => {
       danger: true,
     },
   ];
+  console.log(data?.data);
+
   return (
     <>
       <div className="flex items-center justify-between">

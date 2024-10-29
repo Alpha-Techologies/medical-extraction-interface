@@ -33,7 +33,6 @@ interface Address {
   Wereda: string;
   HouseNumber: string;
   Kebele: string;
-  PhoneNumber: string;
 }
 
 // Patient Demographics Type
@@ -45,6 +44,7 @@ interface PatientDemographics {
   GrandFatherName: string;
   Gender: string;
   Age: number;
+  PhoneNumber: string;
   Address: Address;
 }
 
@@ -60,6 +60,8 @@ interface HistoryRecord {
 
 // Medical Record Type
 export interface MedicalRecord {
+  user_id: string;
+  organization: string;
   PatientDemographics: PatientDemographics;
   HistorySheet: HistoryRecord[];
 }
