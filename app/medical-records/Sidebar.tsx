@@ -1,34 +1,25 @@
 "use client";
 import React, { useState } from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
 
-import UploadDocument from "./UploadDocument";
+import { Icon } from "@iconify/react";
+import { Layout, Menu, theme } from "antd";
+import { useRouter } from "next/navigation";
+
 import PatientList from "./PatientList";
 import HeaderContent from "./HeaderContent";
 
 const { Header, Content, Footer, Sider } = Layout;
-
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const router = useRouter();
+  const handleClick = (path: string) => {
+    router.push(path); // Navigate to the specified route
+  };
 
   return (
     <Layout className="min-h-screen">
@@ -48,7 +39,39 @@ const App: React.FC = () => {
           theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={items}
+          items={[
+            {
+              key: "1",
+              icon: (
+                <Icon
+                  icon="streamline:medical-files-report-history"
+                  width="1rem"
+                  height="1rem"
+                />
+              ),
+              label: "Medical Records",
+              onClick: () => handleClick("/medical-records"),
+            },
+            {
+              key: "2",
+              icon: (
+                <Icon
+                  icon="material-symbols-light:upload"
+                  width="1rem"
+                  height="1rem"
+                />
+              ),
+              label: "Upload Medical Records",
+              onClick: () => handleClick("/medical-records/upload"),
+            },
+            {
+              key: "3",
+              icon: (
+                <Icon icon="tdesign:user-setting" width="1rem" height="1rem" />
+              ),
+              label: "Profile",
+            },
+          ]}
         />
       </Sider>
       <Layout>
@@ -64,9 +87,7 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <div className="flex justify-end">
-              <UploadDocument />
-            </div>
+            <div className="flex justify-end">{/* <UploadDocument /> */}</div>
             <div>
               <PatientList></PatientList>
             </div>

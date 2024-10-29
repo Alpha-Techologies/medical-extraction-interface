@@ -1,3 +1,4 @@
+import { MedicalRecords } from "./../app/MedicalRecords";
 export interface SignupCredentials {
   email: string;
   password: string;
@@ -13,50 +14,52 @@ export interface SignupApiResponse {
   message: string;
   success: boolean;
   error?: string[];
-  statusCode: number;
+  refresh_token: string;
+  access_token: string;
 }
 export interface LoginApiResponse {
   success: boolean;
   message: string;
   id: string;
   email: string;
-  isVerified: boolean;
-  accessToken: string;
-  refresh_Token: string;
-  refresh_Token_Expiry_Date: string;
-  access_Token_Expiry_Date: string;
+  error?: string;
+  refresh_token: string;
+  access_token: string;
 }
 
-// types.ts
-export interface Address {
-  region: string;
-  wereda: string;
-  house_number: string;
-  kebele: string;
-  phone_number: string;
+// Address Type
+interface Address {
+  Region: string;
+  Wereda: string;
+  HouseNumber: string;
+  Kebele: string;
+  PhoneNumber: string;
 }
 
-export interface PatientDemographics {
-  medical_record_number: string;
-  date_of_registration: string;
-  name: string;
-  f_name: string;
-  gf_name: string;
-  gender: string;
-  age: number;
-  address: Address;
+// Patient Demographics Type
+interface PatientDemographics {
+  MedicalRecordNumber: string;
+  DateOfRegistration: string;
+  Name: string;
+  FatherName: string;
+  GrandFatherName: string;
+  Gender: string;
+  Age: number;
+  Address: Address;
 }
 
-export interface HistoryEntry {
-  date: string;
-  name_of_patient: string;
-  age: number;
-  sex: string;
-  medical_record_number: string;
-  medical_history: string;
+// History Sheet Type
+interface HistoryRecord {
+  Date: string;
+  NameOfPatient: string;
+  Age: number;
+  Sex: string;
+  MedicalRecordNumber: string;
+  MedicalHistory: string;
 }
 
+// Medical Record Type
 export interface MedicalRecord {
-  patient_demographics: PatientDemographics;
-  history_sheet: HistoryEntry[];
+  PatientDemographics: PatientDemographics;
+  HistorySheet: HistoryRecord[];
 }

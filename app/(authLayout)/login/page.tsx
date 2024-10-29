@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { LoginValidation } from "@/utils/schema";
 import { Form, Input, Button } from "antd";
-import { useLoginMutation } from "@/redux/features/user";
+import { useLoginMutation, useSignupMutation } from "@/redux/features/user";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
@@ -18,11 +17,8 @@ export default function Login({}: Props) {
   const [loginForm] = Form.useForm();
   const [login, { isLoading, error, isError }] = useLoginMutation();
 
-  // hook variables
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  // Login validation with yup
   const yupSync: any = {
     async validator({ field }: { field: string }, value: string) {
       await LoginValidation.validateSyncAt(field, { [field]: value });
@@ -35,8 +31,10 @@ export default function Login({}: Props) {
 
     const res = await login(credentials);
 
-    if (res && "access_token" in res) {
+    if (res && "data" in res) {
+      console.log("here ", res);
       toast.success("Account Successfully Created");
+      router.push("/patients");
     } else if (res && "error" in res) {
       const { error } = res as any;
       const errorMessage = error?.data?.message;
