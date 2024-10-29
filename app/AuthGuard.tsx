@@ -20,7 +20,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
   useEffect(() => {
     // Redirect to login if tokens are missing
     if (!access_token || !refresh_token) {
-      router.push("/login");
+      router.push("/home");
     }
   }, [access_token, refresh_token, router]);
 
