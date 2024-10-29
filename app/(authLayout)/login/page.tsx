@@ -32,7 +32,6 @@ export default function Login({}: Props) {
     const res = await login(credentials);
 
     if (res && "data" in res) {
-      console.log("here ", res);
       toast.success("Logged in successfully.");
       router.push("/medical-records");
     } else if (res && "error" in res) {

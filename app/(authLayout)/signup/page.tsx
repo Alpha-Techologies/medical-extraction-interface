@@ -24,7 +24,6 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const credentials = signupForm.getFieldsValue();
     const res = await login(credentials);
-    console.log(res);
     if (res && "data" in res) {
       toast.success("Account Successfully Created");
       router.push("/medical-records");

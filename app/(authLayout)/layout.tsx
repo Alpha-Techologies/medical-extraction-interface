@@ -11,10 +11,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const access_token = useSelector((state: any) => state.auth.access_token);
-  const refresh_token = useSelector((state: any) => state.auth.refresh_token);
-
-  console.log(access_token, refresh_token, "the token sin redux");
+  const access_token = useSelector((state: any) => state?.auth?.access_token);
+  const refresh_token = useSelector((state: any) => state?.auth?.refresh_token);
 
   useEffect(() => {
     if (access_token && access_token !== "") {

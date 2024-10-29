@@ -10,6 +10,7 @@ import { useRouter, usePathname } from "next/navigation";
 
 import PatientList from "./PatientList";
 import HeaderContent from "./HeaderContent";
+import { Fullscreen } from "lucide-react";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -48,6 +49,7 @@ const PatientDashboardLayout = ({ children }: PatientLayoutProps) => {
             mode="inline"
             selectedKeys={[pathname]}
             defaultSelectedKeys={["1"]}
+            className="mt-4"
             items={[
               {
                 key: "/medical-records",
@@ -96,10 +98,11 @@ const PatientDashboardLayout = ({ children }: PatientLayoutProps) => {
             <div
               style={{
                 padding: 24,
-                minHeight: 360,
+
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
+              className="min-h-[calc(100vh-100px)]"
             >
               <div className="flex justify-end">{/* <UploadDocument /> */}</div>
               <div>
