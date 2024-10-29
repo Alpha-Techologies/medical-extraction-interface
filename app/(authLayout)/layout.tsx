@@ -3,6 +3,7 @@
 import AuthBackground from "@/components/auth/AuthBackground";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function AuthLayout({
   children,
@@ -10,10 +11,12 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    // console.log(access_token, "access_token inlayout");
+  const access_token = useSelector((state: any) => state.auth.access_token);
+  const refresh_token = useSelector((state: any) => state.auth.refresh_token);
 
+  console.log(access_token, refresh_token, "the token sin redux");
+
+  useEffect(() => {
     if (access_token && access_token !== "") {
       router.push("/medical-records");
     }

@@ -33,7 +33,7 @@ export default function Login({}: Props) {
 
     if (res && "data" in res) {
       console.log("here ", res);
-      toast.success("Account Successfully Logged In");
+      toast.success("Logged in successfully.");
       router.push("/medical-records");
     } else if (res && "error" in res) {
       const { error } = res as any;

@@ -19,7 +19,15 @@ let initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuth: (state, action) => {
+      state.access_token = action.payload.new_access_token;
+    },
+    resetAuth: (state) => {
+      state.access_token = "";
+      state.refresh_token = "";
+    },
+  },
   extraReducers(builder) {
     builder.addMatcher(userApi.endpoints.login.matchPending, (state) => {});
     builder.addMatcher(userApi.endpoints.signup.matchPending, (state) => {});
@@ -29,6 +37,8 @@ const authSlice = createSlice({
       (state, { payload }: { payload: LoginApiResponse }) => {
         localStorage.setItem("access_token", payload.access_token);
         localStorage.setItem("refresh_token", payload.refresh_token);
+        state.access_token = payload.access_token;
+        state.refresh_token = payload.refresh_token;
       }
     );
 
@@ -37,6 +47,8 @@ const authSlice = createSlice({
       (state, { payload }: { payload: SignupApiResponse }) => {
         localStorage.setItem("access_token", payload.access_token);
         localStorage.setItem("refresh_token", payload.refresh_token);
+        state.access_token = payload.access_token;
+        state.refresh_token = payload.refresh_token;
       }
     );
 
@@ -49,6 +61,8 @@ const authSlice = createSlice({
       (state, { payload }) => {
         localStorage.setItem("access_token", "");
         localStorage.setItem("refresh_token", "");
+        state.access_token = "";
+        state.refresh_token = "";
       }
     );
 
@@ -59,7 +73,7 @@ const authSlice = createSlice({
   },
 });
 
-export const {} = authSlice.actions;
+export const { setAuth, resetAuth } = authSlice.actions;
 
 export default authSlice.reducer;
 
