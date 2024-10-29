@@ -93,10 +93,11 @@ const PatientDashboardLayout = ({ children }: PatientLayoutProps) => {
             <div
               style={{
                 padding: 24,
-                minHeight: 360,
+
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
               }}
+              className="min-h-[calc(100vh-100px)]"
             >
               <div className="flex justify-end">{/* <UploadDocument /> */}</div>
               <div>

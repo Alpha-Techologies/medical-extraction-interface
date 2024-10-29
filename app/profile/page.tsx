@@ -1,6 +1,10 @@
+"use client";
 import React from "react";
+import { useGetUserQuery } from "@/redux/features/user";
 
 const page = () => {
+  const { data: user } = useGetUserQuery("");
+  console.log(user);
   return (
     <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
@@ -16,31 +20,25 @@ const page = () => {
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">First Name</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              Yohannes
+              {user?.first_name}
             </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Last Name</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              Msganaw
+              {user?.last_name}
             </dd>
           </div>
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Email address</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              yohanneseshete@gmail.com
+              {user?.email}
             </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Organization</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              Tekelehaymanot Genral Hospital
-            </dd>
-          </div>
-          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Position</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              Doctor
+              {user?.organization}
             </dd>
           </div>
         </dl>
